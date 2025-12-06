@@ -70,6 +70,7 @@ public:
 
     vec2 xy;
     vec2 yz;
+    vec2 xz;
 
     vec3(float x1, float y1, float z1) {
         x = x1;
@@ -78,6 +79,7 @@ public:
 
         xy = vec2(x, y);
         yz = vec2(y, z);
+        xz = vec2(x, z);
     }
 
     vec3(float n) {
@@ -87,6 +89,7 @@ public:
 
         xy = vec2(x, y);
         yz = vec2(y, z);
+        xz = vec2(x, z);
     }
 
     vec3() {
@@ -96,6 +99,7 @@ public:
 
         xy = vec2(x, y);
         yz = vec2(y, z);
+        xz = vec2(x, z);
     }
 
     vec3 operator+(const vec3& other) const {
@@ -533,6 +537,23 @@ inline float tan(float x) {
 
 inline float mix(float x, float y, float a) {
     return x * (1.0 - a) + y * a;
+}
+
+
+inline float sqrt(float x) {
+    return std::sqrt(x);
+}
+
+inline vec2 sqrt(const vec2& v) {
+    return vec2(sqrt(v.x), sqrt(v.y));
+}
+
+inline vec3 sqrt(const vec3& v) {
+    return vec3(sqrt(v.x), sqrt(v.y), sqrt(v.z));
+}
+
+inline vec4 sqrt(const vec4& v) {
+    return vec4(sqrt(v.x), sqrt(v.y), sqrt(v.z), sqrt(v.w));
 }
 
 #endif // ESSENTIALS_HPP
