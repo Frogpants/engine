@@ -23,6 +23,11 @@ public:
         y = n;
     }
 
+    vec2() {
+        x = 0.0;
+        y = 0.0;
+    }
+
     vec2 operator+(const vec2& other) const {
         return vec2(this->x + other.x, this->y + other.y);
     }
@@ -63,16 +68,16 @@ public:
     float y;
     float z;
 
-    // vec2 xy;
-    // vec2 yz;
+    vec2 xy;
+    vec2 yz;
 
     vec3(float x1, float y1, float z1) {
         x = x1;
         y = y1;
         z = z1;
 
-        // xy = vec2(x, y);
-        // yz = vec2(y, z);
+        xy = vec2(x, y);
+        yz = vec2(y, z);
     }
 
     vec3(float n) {
@@ -80,8 +85,17 @@ public:
         y = n;
         z = n;
 
-        // xy = vec2(x, y);
-        // yz = vec2(y, z);
+        xy = vec2(x, y);
+        yz = vec2(y, z);
+    }
+
+    vec3() {
+        x = 0.0;
+        y = 0.0;
+        z = 0.0;
+
+        xy = vec2(x, y);
+        yz = vec2(y, z);
     }
 
     vec3 operator+(const vec3& other) const {
@@ -125,11 +139,11 @@ public:
     float z;
     float w;
 
-    // vec3 xyz;
-    // vec3 zyx;
+    vec3 xyz;
+    vec3 zyx;
 
-    // vec3 yzw;
-    // vec3 wzy;
+    vec3 yzw;
+    vec3 wzy;
 
     vec4(float x1, float y1, float z1, float w1) {
         x = x1;
@@ -137,11 +151,11 @@ public:
         z = z1;
         w = w1;
 
-        // xyz = vec3(x, y, z);
-        // zyx = vec3(z, y, x);
+        xyz = vec3(x, y, z);
+        zyx = vec3(z, y, x);
 
-        // yzw = vec3(y, z, w);
-        // wzy = vec3(w, z, y);
+        yzw = vec3(y, z, w);
+        wzy = vec3(w, z, y);
     }
 
     vec4(float n) {
@@ -150,11 +164,24 @@ public:
         z = n;
         w = n;
 
-        // xyz = vec3(x, y, z);
-        // zyx = vec3(z, y, x);
+        xyz = vec3(x, y, z);
+        zyx = vec3(z, y, x);
 
-        // yzw = vec3(y, z, w);
-        // wzy = vec3(w, z, y);
+        yzw = vec3(y, z, w);
+        wzy = vec3(w, z, y);
+    }
+
+    vec4() {
+        x = 0.0;
+        y = 0.0;
+        z = 0.0;
+        w = 0.0;
+
+        xyz = vec3(x, y, z);
+        zyx = vec3(z, y, x);
+
+        yzw = vec3(y, z, w);
+        wzy = vec3(w, z, y);
     }
 
     vec4 operator+(const vec4& other) const {

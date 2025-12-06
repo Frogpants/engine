@@ -3,8 +3,8 @@
 
 #include <cmath>
 
-#include "essentials.hpp" 
-
+#include "essentials.hpp"
+ 
 float hash(const vec2& v) {
     vec2 i = floor(v * 10.0);
     return fract(sin(dot(i, vec2(12.989, 78.233))) * 43758.5453);
@@ -53,17 +53,6 @@ float noise(const vec3& p) {
     return mix(mix(mix(a, b, u.x), mix(c, d, u.x), u.y), mix(mix(e, f1, u.x), mix(g, h, u.x), u.y), u.z);
 }
 
-
-vec3 noiseNormal(const vec2& p, float height) {
-    vec3 pos = vec3(p.x, noise(p)*height, p.y);
-    return noiseNormal(pos);
-}
-
-vec3 noiseNormal(const vec2& p) {
-    vec3 pos = vec3(p.x, noise(p), p.y);
-    return noiseNormal(pos);
-}
-
 vec3 noiseNormal(const vec3& p) {
     float eps = 0.002;
 
@@ -72,6 +61,11 @@ vec3 noiseNormal(const vec3& p) {
     float dz = noise(p + vec3(0,0,eps)) - noise(p - vec3(0,0,eps));
 
     return normalize(vec3(dx, dy, dz));
+}
+
+vec3 noiseNormal(const vec2& p) {
+    vec3 pos = vec3(p.x, noise(p), p.y);
+    return noiseNormal(pos);
 }
 
 #endif // PERLIN_HPP
