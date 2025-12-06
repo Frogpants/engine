@@ -4,6 +4,7 @@
 #include <optional>
 
 #include "essentials.hpp"
+#include "perlin.hpp"
 
 vec2 v1 = vec2(0.0);
 vec2 v2(1.0, 1.0);

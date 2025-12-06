@@ -21,7 +21,7 @@ float hash(const vec4& v) {
 }
 
 
-float noise2D(vec2 p) {
+float noise(const vec2& p) {
     vec2 i = floor(p);
     vec2 f = fract(p);
 
@@ -35,7 +35,7 @@ float noise2D(vec2 p) {
     return mix(mix(a, b, u.x), mix(c, d, u.x), u.y);
 }
 
-float noise3D(vec3 p) {
+float noise(const vec3& p) {
     vec3 i = floor(p);
     vec3 f = fract(p);
 
@@ -51,6 +51,27 @@ float noise3D(vec3 p) {
     vec3 u = f*f*(f * -2.0 + 3.0);
 
     return mix(mix(mix(a, b, u.x), mix(c, d, u.x), u.y), mix(mix(e, f1, u.x), mix(g, h, u.x), u.y), u.z);
+}
+
+
+vec3 noiseNormal(const vec2& p, float height) {
+    vec3 pos = vec3(p.x, noise(p)*height, p.y);
+    return noiseNormal(pos);
+}
+
+vec3 noiseNormal(const vec2& p) {
+    vec3 pos = vec3(p.x, noise(p), p.y);
+    return noiseNormal(pos);
+}
+
+vec3 noiseNormal(const vec3& p) {
+    float eps = 0.002;
+
+    float dx = noise(p + vec3(eps,0,0)) - noise(p - vec3(eps,0,0));
+    float dy = noise(p + vec3(0,eps,0)) - noise(p - vec3(0,eps,0));
+    float dz = noise(p + vec3(0,0,eps)) - noise(p - vec3(0,0,eps));
+
+    return normalize(vec3(dx, dy, dz));
 }
 
 #endif // PERLIN_HPP
