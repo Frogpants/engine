@@ -490,4 +490,22 @@ inline vec4 degrees(const vec4& v) {
     return n;
 }
 
+
+inline float sin(float x) {
+    return std::sin(x);
+}
+
+inline float cos(float x) {
+    return std::cos(x);
+}
+
+inline float tan(float x) {
+    return std::tan(x);
+}
+
+
+inline float mix(float x, float y, float a) {
+    return x * (1.0 - a) + y * a;
+}
+
 #endif // ESSENTIALS_HPP

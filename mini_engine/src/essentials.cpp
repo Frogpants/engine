@@ -5,7 +5,7 @@
 
 #include "essentials.hpp"
 
-vec2 v1(0.0);
+vec2 v1 = vec2(0.0);
 vec2 v2(1.0, 1.0);
 
 float dist2 = length(v2 - v1);
@@ -24,3 +24,5 @@ int main() {
     std::cout << "dist2=" << dist2 << " dist3=" << dist3 << " dist4=" << dist4 << "\n";
     return 0;
 }
+
+// g++ -std=c++17 -Wall -Wextra mini_engine/src/essentials.cpp -o mini_engine/src/essentials.out ./mini_engine/src/essentials.out
