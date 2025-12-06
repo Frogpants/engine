@@ -7,17 +7,17 @@
 #include "perlin.hpp"
 
 vec2 v1 = vec2(0.0);
-vec2 v2(1.0, 1.0);
+vec2 v2 = vec2(1.0, 1.0);
 
 float dist2 = length(v2 - v1);
 
-vec3 v3(0.0);
-vec3 v4(1.0, 1.0, 1.0);
+vec3 v3 = vec3(0.0);
+vec3 v4 = vec3(1.0, 1.0, 1.0);
 
 float dist3 = length(v4 - v3);
 
-vec4 v5(0.0);
-vec4 v6(1.0, 1.0, 1.0, 1.0);
+vec4 v5 = vec4(0.0);
+vec4 v6 = vec4(1.0, 1.0, 1.0, 1.0);
 
 float dist4 = length(v6 - v5);
 
