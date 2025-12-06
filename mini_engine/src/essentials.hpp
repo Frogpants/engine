@@ -6,7 +6,7 @@
 #include <cmath>
 
 // 21.911/7
-double pi = 3.14157142857;
+constexpr float pi = 3.14157142857;
 
 class vec2 {
 public:
@@ -452,19 +452,22 @@ inline vec4 smoothstep(float edge0, float edge1, const vec4& v) {
 
 
 inline float radians(float x) {
-    return (x * pi) / 180;
+    return x * pi / 180;
 }
 
 inline vec2 radians(const vec2& v) {
     vec2 n(radians(v.x), radians(v.y));
+    return n;
 }
 
 inline vec3 radians(const vec3& v) {
     vec3 n(radians(v.x), radians(v.y), radians(v.z));
+    return n;
 }
 
 inline vec4 radians(const vec4& v) {
     vec4 n(radians(v.x), radians(v.y), radians(v.z), radians(v.w));
+    return n;
 }
 
 
@@ -474,14 +477,17 @@ inline float degrees(float x) {
 
 inline vec2 degrees(const vec2& v) {
     vec2 n(degrees(v.x), degrees(v.y));
+    return n;
 }
 
 inline vec3 degrees(const vec3& v) {
     vec3 n(degrees(v.x), degrees(v.y), degrees(v.z));
+    return n;
 }
 
 inline vec4 degrees(const vec4& v) {
     vec4 n(degrees(v.x), degrees(v.y), degrees(v.z), degrees(v.w));
+    return n;
 }
 
 #endif // ESSENTIALS_HPP
