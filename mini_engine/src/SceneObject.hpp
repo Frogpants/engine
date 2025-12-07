@@ -5,47 +5,68 @@
 #include <cmath>
 
 #include "essentials.hpp"
-#include "transform.hpp"
-#include "mesh.hpp"
+#include "components/transform.hpp"
+#include "components/mesh.hpp"
 
+
+#pragma once
+#include <string>
+#include <vector>
+
+class Scene;
 
 class SceneObject {
 public:
-    Transform transform;
-    Mesh mesh;
-
-    Transform parent;
-
-    bool isStatic;
-
     std::string name;
-    std::string type;
+    Scene* scene = nullptr;  
 
-    SceneObject() {
-        transform.position = transform.position + parent.position;
-        transform.rotation = transform.rotation + parent.rotation;
+    SceneObject* parent = nullptr;
+    std::vector<SceneObject*> children;
 
-        isStatic = true;
+    SceneObject(const std::string& n);
 
-        name = "GameObject";
-        type = "empty";
-    }
-
-    SceneObject(std::string name_, std::string type_) {
-        transform.position = transform.position + parent.position;
-        transform.rotation = transform.rotation + parent.rotation;
-
-        isStatic = true;
-
-        name = name_;
-        type = type_;
-    }
-
-    void clone() {
-        
-    }
-
+    SceneObject* CreateChild(const std::string& name);
+    void AddChild(SceneObject* child);
 };
+
+
+// class SceneObject {
+// public:
+//     Transform transform;
+//     Mesh mesh;
+
+//     SceneObject* parent = nullptr;
+
+//     bool isStatic;
+
+//     std::string name;
+//     std::string type;
+
+//     SceneObject() {
+//         transform.position = transform.position + parent.position;
+//         transform.rotation = transform.rotation + parent.rotation;
+
+//         isStatic = true;
+
+//         name = "GameObject";
+//         type = "empty";
+//     }
+
+//     SceneObject(std::string name_, std::string type_) {
+//         transform.position = transform.position + parent.position;
+//         transform.rotation = transform.rotation + parent.rotation;
+
+//         isStatic = true;
+
+//         name = name_;
+//         type = type_;
+//     }
+
+//     void clone() {
+        
+//     }
+
+// };
 
 
 #endif // SCENEOBJECT_HPP

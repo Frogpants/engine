@@ -4,11 +4,13 @@
 
 #include <cmath>
 
-#include "essentials.hpp"
+#include "../essentials.hpp"
+#include "../SceneObject.hpp"
 
 
 class Transform {
 public:
+
     vec3 position;
     vec4 rotation;
     vec3 scale;

@@ -4,7 +4,7 @@
 
 #include <cmath>
 
-#include "essentials.hpp"
+#include "../essentials.hpp"
 
 
 class Mesh {
