@@ -38,3 +38,4 @@ clean:
 # Run the program
 run: all
 	./$(OUT)
+	rm -f $(SRC_DIR)/*.o $(OUT)
