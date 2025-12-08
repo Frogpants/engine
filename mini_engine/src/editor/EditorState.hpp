@@ -2,68 +2,127 @@
 #define EDITORSTATE_HPP
 
 #include "Block.hpp"
-#include <vector>
+
+// ------------------------------------------------------------
+// Global Editor State
+// ------------------------------------------------------------
+struct Sprite {
+std::string name;
+Sprite(const std::string& n) : name(n) {}
+};
 
 struct EditorState {
-    std::vector<Block*> blocks;
-    Block* selected = nullptr;
+std::vector<Block*> blocks;
+std::vector<Sprite*> sprites; // Added for sprite panel
 
-    Block* hoveredSocket = nullptr;
-    Block* hoveredBoolean = nullptr;
+Block* selected = nullptr;
+Block* hoveredSocket = nullptr;
+Block* hoveredBoolean = nullptr;
 
-    // Running state
-    bool running = false;
+// Running state
+bool running = false;
 
-    // Script execution
-    size_t currentBlockIndex = 0; // index of the currently executing block
-    std::vector<Block*> executionOrder; // flattened stack of blocks to execute
+// Execution
+size_t currentBlockIndex = 0;
+std::vector<Block*> executionOrder;
+
+// --------------------------------------------------------
+// Add a new sprite
+// --------------------------------------------------------
+void AddSprite(const std::string& name) {
+    sprites.push_back(new Sprite(name));
+}
+
+// --------------------------------------------------------
+// Remove a sprite by index
+// --------------------------------------------------------
+void RemoveSprite(size_t index) {
+    if (index >= sprites.size()) return;
+    delete sprites[index];
+    sprites.erase(sprites.begin() + index);
+}
+
+// --------------------------------------------------------
+// Clear all sprites
+// --------------------------------------------------------
+void ClearSprites() {
+    for (Sprite* s : sprites) delete s;
+    sprites.clear();
+}
 
 };
 
-// Global editor state
 inline EditorState g_editor;
 
-// Utility function to flatten blocks into execution order (simple linear execution)
+// ------------------------------------------------------------
+// RECURSIVE execution builder
+// ------------------------------------------------------------
+inline void FlattenBlock(Block* b, std::vector<Block*>& out)
+{
+if (!b) return;
+
+out.push_back(b);
+
+if (b->inside)
+    FlattenBlock(b->inside, out);
+
+if (b->next)
+    FlattenBlock(b->next, out);
+
+}
+
+// ------------------------------------------------------------
+// Build execution order from all top-level stack/C-blocks
+// ------------------------------------------------------------
 inline void BuildExecutionOrder()
 {
-    g_editor.executionOrder.clear();
-    for (Block* b : g_editor.blocks)
+g_editor.executionOrder.clear();
+
+for (Block* b : g_editor.blocks)
+{
+    if (b->shape == BlockShape::Stack || b->shape == BlockShape::CBlock)
     {
-        if (b->shape == BlockShape::Stack)
-            g_editor.executionOrder.push_back(b);
-        else if (b->shape == BlockShape::CBlock)
-        {
-            g_editor.executionOrder.push_back(b);
-            for (Block* child : b->children) {
-                g_editor.executionOrder.push_back(child);
-            }
-        }
-        g_editor.currentBlockIndex = 0;
+        FlattenBlock(b, g_editor.executionOrder);
     }
 }
 
-// Step the execution by one block
-inline void StepExecution() {
-    if (!g_editor.running) return;
-    if (g_editor.currentBlockIndex >= g_editor.executionOrder.size()) {
-        g_editor.running = false; // stop when finished
-        g_editor.currentBlockIndex = 0;
-        return;
-    }
+g_editor.currentBlockIndex = 0;
 
-    Block* b = g_editor.executionOrder[g_editor.currentBlockIndex];
+}
 
-    // Execute the block logic (placeholder)
-    if (b->text == "Move Steps")
-    {
-        // Implement movement logic here
-    }
-    else if (b->text == "Turn")
-    {
-        // Implement turn logic here
-    }
+// ------------------------------------------------------------
+// Step execution — executes ONE block per call
+// ------------------------------------------------------------
+inline void StepExecution()
+{
+if (!g_editor.running) return;
 
-    g_editor.currentBlockIndex++;
+if (g_editor.currentBlockIndex >= g_editor.executionOrder.size())
+{
+    g_editor.running = false;
+    g_editor.currentBlockIndex = 0;
+    return;
+}
+
+Block* b = g_editor.executionOrder[g_editor.currentBlockIndex];
+
+// ---------------------------
+// Placeholder behavior
+// ---------------------------
+if (b->text == "Move Steps")
+{
+    // TODO: use arguments to move sprite
+}
+else if (b->text == "Turn")
+{
+    // TODO: use args to rotate sprite
+}
+else if (b->text == "Repeat")
+{
+    // TODO: Scratch-style loop
+}
+
+g_editor.currentBlockIndex++;
 
 }
 
