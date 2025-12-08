@@ -1,4 +1,4 @@
-# C++ Engine
+# Atom Engine
 
 ## Overview
 This C++ Engine is a lightweight, modular, and extensible framework designed for building high-performance games. It provides the foundation for 2D and 3D rendering, input handling, dynamic system management, and more, while maintaining a clean and flexible architecture.
