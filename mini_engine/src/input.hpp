@@ -55,7 +55,7 @@ private:
 };
 
 
-class InputMapper {
+class InputManager {
 public:
 
     int lastKeyPressed;
@@ -67,7 +67,7 @@ public:
 
     KeyMapper Keys;
 
-    InputMapper(GLFWwindow* window_, SceneObject sprite, SceneObject camera) {
+    InputManager(GLFWwindow* window_, SceneObject sprite, SceneObject camera) {
         lastKeyPressed = 0;
         keyPressed = false;
 
@@ -93,64 +93,64 @@ public:
         return false;
     }
 
-    bool intersectTriangle(const vec3& orig, const vec3& dir, const vec3& v0, const vec3& v1, const vec3& v2, float& t) {
-        const float EPSILON = 0.0000001f;
-        vec3 edge1 = v1 - v0;
-        vec3 edge2 = v2 - v0;
-        vec3 h = cross(dir, edge2);
-        float a = dot(edge1, h);
-        if (fabs(a) < EPSILON) return false;
+    // bool intersectTriangle(const vec3& orig, const vec3& dir, const vec3& v0, const vec3& v1, const vec3& v2, float& t) {
+    //     const float EPSILON = 0.0000001f;
+    //     vec3 edge1 = v1 - v0;
+    //     vec3 edge2 = v2 - v0;
+    //     vec3 h = cross(dir, edge2);
+    //     float a = dot(edge1, h);
+    //     if (fabs(a) < EPSILON) return false;
 
-        float f = 1.0f / a;
-        vec3 s = orig - v0;
-        float u = f * dot(s, h);
-        if (u < 0.0 || u > 1.0) return false;
+    //     float f = 1.0f / a;
+    //     vec3 s = orig - v0;
+    //     float u = f * dot(s, h);
+    //     if (u < 0.0 || u > 1.0) return false;
 
-        vec3 q = cross(s, edge1);
-        float v = f * dot(dir, q);
-        if (v < 0.0 || u + v > 1.0) return false;
+    //     vec3 q = cross(s, edge1);
+    //     float v = f * dot(dir, q);
+    //     if (v < 0.0 || u + v > 1.0) return false;
 
-        t = f * dot(edge2, q);
-        return t > EPSILON;
-    }
+    //     t = f * dot(edge2, q);
+    //     return t > EPSILON;
+    // }
 
-    vec3 getMouseRay(float mouseX, float mouseY, float screenWidth, float screenHeight, const mat4& projection, const mat4& view, const vec3& cameraPos) {
-        // NDC
-        float x = (2.0f * mouseX) / screenWidth - 1.0f;
-        float y = 1.0f - (2.0f * mouseY) / screenHeight;
-        vec4 ray_clip(x, y, -1.0f, 1.0f);
+    // vec3 getMouseRay(float mouseX, float mouseY, float screenWidth, float screenHeight, const mat4& projection, const mat4& view, const vec3& cameraPos) {
+    //     // NDC
+    //     float x = (2.0f * mouseX) / screenWidth - 1.0f;
+    //     float y = 1.0f - (2.0f * mouseY) / screenHeight;
+    //     vec4 ray_clip(x, y, -1.0f, 1.0f);
 
-        // Eye space
-        vec4 ray_eye = inverse(projection) * ray_clip;
-        ray_eye = vec4(ray_eye.x, ray_eye.y, -1.0f, 0.0f);
+    //     // Eye space
+    //     vec4 ray_eye = inverse(projection) * ray_clip;
+    //     ray_eye = vec4(ray_eye.x, ray_eye.y, -1.0f, 0.0f);
 
-        // World space
-        vec3 ray_world = normalize((inverse(view) * ray_eye).xyz);
+    //     // World space
+    //     vec3 ray_world = normalize((inverse(view) * ray_eye).xyz);
 
-        return ray_world;
-    }
+    //     return ray_world;
+    // }
 
 
-    bool touchingMouse() {
-        bool hit = false;
-        closestT = std::numeric_limits<float>::max();
+    // bool touchingMouse() {
+    //     bool hit = false;
+    //     closestT = std::numeric_limits<float>::max();
 
-        for (size_t i = 0; i < mesh.indices.size(); i += 3) {
-            vec3 v0 = mesh.vertices[mesh.indices[i]];
-            vec3 v1 = mesh.vertices[mesh.indices[i+1]];
-            vec3 v2 = mesh.vertices[mesh.indices[i+2]];
+    //     for (size_t i = 0; i < mesh.indices.size(); i += 3) {
+    //         vec3 v0 = mesh.vertices[mesh.indices[i]];
+    //         vec3 v1 = mesh.vertices[mesh.indices[i+1]];
+    //         vec3 v2 = mesh.vertices[mesh.indices[i+2]];
 
-            float t;
-            if (intersectTriangle(rayOrigin, rayDir, v0, v1, v2, t)) {
-                if (t < closestT) {
-                    closestT = t;
-                    hit = true;
-                }
-            }
-        }
+    //         float t;
+    //         if (intersectTriangle(rayOrigin, rayDir, v0, v1, v2, t)) {
+    //             if (t < closestT) {
+    //                 closestT = t;
+    //                 hit = true;
+    //             }
+    //         }
+    //     }
 
-        return hit;
-    }
+    //     return hit;
+    // }
 };
 
 

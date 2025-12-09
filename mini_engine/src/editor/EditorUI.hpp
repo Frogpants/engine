@@ -75,7 +75,7 @@ void DrawBlockPalette() {
     static int selectedTab = 0;
     char* tabs[] = { "Motion", "Looks", "Sound", "Events", "Control", "Sensing", "Operators", "Variables", "Lists", "My Blocks" };
 
-    // !!! ADD DIFFERENT BLOCKS FOR EACH TAB !!!
+    // !!! ADD DIFFERENT BLOCKS FOR EACH TAB !!! (BlockManager.hpp)
 
     for (int i = 0; i < IM_ARRAYSIZE(tabs); i++) {
         if (ImGui::Selectable(tabs[i], selectedTab == i)) {

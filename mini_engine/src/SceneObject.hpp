@@ -7,6 +7,7 @@
 #include "essentials.hpp"
 #include "components/transform.hpp"
 #include "components/mesh.hpp"
+#include "input.hpp"
 
 
 #pragma once
@@ -17,6 +18,11 @@ class Scene;
 
 class SceneObject {
 public:
+    Transform transform;
+    Mesh mesh;
+    InputManager Input;
+
+
     std::string name;
     Scene* scene = nullptr;  
 
@@ -24,6 +30,8 @@ public:
     std::vector<SceneObject*> children;
 
     SceneObject(const std::string& n);
+
+    SceneObject();
 
     SceneObject* CreateChild(const std::string& name);
     void AddChild(SceneObject* child);

@@ -9,9 +9,15 @@
 
 class Mesh {
 public:
+    int frame;
+    bool visible;
+    int layer;
+
 
     Mesh() {
-        
+        frame = 1;
+        visible = true;
+        layer = 1;
     }
 
 };
