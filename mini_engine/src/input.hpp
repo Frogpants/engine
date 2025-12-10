@@ -4,6 +4,7 @@
 
 #include <iostream>
 
+
 #include "essentials.hpp"
 #include "components/mesh.hpp"
 #include "SceneObject.hpp"
@@ -12,6 +13,8 @@
 #include <unordered_map>
 #include <string>
 #include <cctype>
+
+#include "../../imgui/imgui.h"
 
 class KeyMapper {
 public:
@@ -67,6 +70,11 @@ public:
 
     KeyMapper Keys;
 
+    ImVec2 mouse;
+
+    bool leftDown = ImGui::IsMouseDown(ImGuiMouseButton_Left);
+    bool rightDown = ImGui::IsMouseDown(ImGuiMouseButton_Right);
+
     InputManager(GLFWwindow* window_, SceneObject sprite, SceneObject camera) {
         lastKeyPressed = 0;
         keyPressed = false;
@@ -76,6 +84,8 @@ public:
         allKeys = "abcdefghijklmnopqrstuvwxyz0123456789 -=[]\\;',./";
 
         Keys.build(allKeys);
+
+        mouse = ImGui::GetIO().MousePos;
     }
 
     bool detectKey(int k) {

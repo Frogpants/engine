@@ -1,17 +1,41 @@
 #pragma once
 
 #include <vector>
+#include <variant>
 
 #include "../essentials.hpp"
 #include "../SceneObject.hpp"
-#include "../scene.hpp"
+
+#include "EditorState.hpp"
+#include "MenuManager.hpp"
 
 
-
-struct Cammand {
+struct Command {
     void (*func)(float);
     float arg;
 };
+
+
+struct Variable {
+    std::string name;
+    float value;
+    std::string control;
+};
+
+struct Variable {
+    std::string name;
+    std::string value;
+    std::string control;
+};
+
+
+struct List {
+    std::string name;
+    std::vector<std::variant<float, std::string>> values;
+    std::string control;
+};
+
+
 
 class Motion {
 public:
@@ -260,18 +284,30 @@ public:
 
     SceneObject actor;
 
+    bool started;
+    Mesh lastBackdrop;
+
     Events(SceneObject actor_) {
         input = vec3(0.0);
         output = vec3(0.0);
 
         actor = actor_;
+
+        started = false;
+
+        lastBackdrop = scene.backdrop;
     }
 
 
 
     void start(std::vector<void>& commands) {
-        for(int i = 0; i < commands.size(); i++) {
-            commands[i].func(commands[i].arg);
+        if (g_editor.running && started) {
+            started = true;
+            for(int i = 0; i < commands.size(); i++) {
+                commands[i].func(commands[i].arg);
+            }
+        } else {
+            started = false;
         }
     }
 
@@ -284,8 +320,23 @@ public:
     }
 
     void whenClicked() {
-        // Need to add
+        // Need to add mouse detection
     }
+
+    void whenBackdrop(std::vector<void>& commands) {
+        if (scene.backdrop != lastBackdrop) {
+            for(int i = 0; i < commands.size(); i++) {
+                commands[i].func(commands[i].arg);
+            }
+        }
+    }
+
+
+
+    void whenValue()
+
+
+    void recieveMessage
 
 
 };
@@ -299,11 +350,15 @@ public:
 
     SceneObject actor;
 
+    Menu StopMenu;
+
     Controls(SceneObject actor_) {
         input = vec3(0.0);
         output = vec3(0.0);
 
         actor = actor_;
+
+        StopMenu = { "all", "this script", "other scripts in sprite" };
     }
 
 
@@ -383,11 +438,155 @@ public:
 
 
     void stop(std::string& type) {
-        //
+        int id = StopMenu.getID(type);
+
+        if (id == 0) {
+
+        } else if (id == 1) {
+
+        } else if (id == 2) {
+
+        }
     }
 
 
 
+    void whenClone(std::vector<void>& commands) {
+        if (actor.isClone) {
+            for(int i = 0; i < commands.size(); i++) {
+                commands[i].func(commands[i].arg);
+            }
+        }
+    }
+
+    void createClone() {
+        actor.AddChild(actor);
+    }
+
+    void deleteClone() {
+        if (actor.isClone) {
+            // Remove
+        }
+    }
+};
 
 
+
+class Sensing {
+public:
+    bool isTouching = false;
+
+    SceneObject actor;
+
+    Menu DragMenu;
+
+    Sensing(SceneObject actor_) {
+        actor = actor_;
+
+        DragMenu = { "Draggable", "Not Draggable" };
+    }
+
+
+
+    bool ifTouching(std::string sprite) {
+
+    }
+
+    float distanceTo(SceneObject target) {
+        return length(target.transform.position - actor.transform.position);
+    }
+
+
+
+    void prompt(std::string& input) {
+        // create UI prompt
+    }
+
+
+
+    bool keyPressed(char k) {
+        return actor.Input.detectKey(k);
+    }
+
+    bool mouseDown() {
+        if (actor.Input.leftDown) {
+            return true;
+        }
+        return false;
+    }
+
+    
+
+    void dragMode(std::string& type) {
+        int id = StopMenu.getID(type);
+
+        if (id == 0) {
+            // drag
+        } else if (id == 1) {
+            // no drag
+        }
+    }
+};
+
+
+
+class Variables {
+class:
+    std::vector<Variable> VariableList;
+
+    Menu variables;
+
+    Variables() {
+        VariableList = {};
+        variables = {};
+    }
+
+    void setVariable(std::string& name, float value) {
+        int id = variables.getID(name);
+        VariableList[id].value = value;
+    }
+
+    void setVariable(std::string& name, std::string& value) {
+        int id = variables.getID(name);
+        VariableList[id].value = value;
+    }
+
+    void changeVariable(std::string& name, float value) {
+        int id = variables.getID(name);
+        VariableList[id].value += value;
+    }
+};
+
+
+
+class Lists {
+public:
+    std::vector<List> ListsList;
+
+    Menu lists;
+
+    Lists() {
+        ListsList = {};
+        lists = {};
+    }
+
+    void addElement(float element, std::string& name) {
+        int id = variables.getID(name);
+        ListsList[id].values.push_back(element);
+    }
+
+    void addElement(std::string& element, std::string& name) {
+        int id = variables.getID(name);
+        ListsList[id].values.push_back(element);
+    }
+
+    void removeElement(float element, std::string& name) {
+        int id = variables.getID(name);
+        ListsList[id].values.erase(element);
+    }
+
+    void removeElement(std::string& element, std::string& name) {
+        int id = variables.getID(name);
+        ListsList[id].values.erase(element);
+    }
 };

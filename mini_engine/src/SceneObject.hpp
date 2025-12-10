@@ -22,6 +22,7 @@ public:
     Mesh mesh;
     InputManager Input;
 
+    bool isClone = false;
 
     std::string name;
     Scene* scene = nullptr;  
