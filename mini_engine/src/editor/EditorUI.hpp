@@ -392,7 +392,7 @@ void DrawStageWithSprites() {
         float x = ImGui::GetCursorPosX();
         float y = ImGui::GetCursorPosY();
 
-        for (std::size_t i = 0; i < g_editor.sprites.size(); i++) {
+        for (size_t i = 0; i < g_editor.sprites.size(); i++) {
 
             ImVec2 pMin = ImGui::GetCursorScreenPos();
             ImVec2 pMax = ImVec2(pMin.x + spriteW, pMin.y + spriteH);
@@ -435,10 +435,8 @@ void DrawStageWithSprites() {
             }
             
 
-            float offX = 0.0f;
-            float offY = 0.0f;
             // Move to next sprite
-            ImGui::SetCursorPos(ImVec2(x + offX, y + offY));
+            ImGui::SetCursorPos(ImVec2(x, y));
         }
 
         // Add Sprite Button
