@@ -590,3 +590,9 @@ public:
         ListsList[id].values.erase(element);
     }
 };
+
+
+
+class MyBlocks {
+    //
+};
