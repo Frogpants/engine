@@ -10,6 +10,7 @@ struct Block {
     int id;
     BlockShape shape;
     ImVec2 position;
+    std::string name;
     std::string text;
 
     std::vector<BlockArgument> args;

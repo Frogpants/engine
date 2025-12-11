@@ -21,6 +21,7 @@ struct EditorState {
 
     // Running state
     bool running = false;
+    Sprite* selectedSprite = nullptr;
 
     // Execution
     size_t currentBlockIndex = 0;
