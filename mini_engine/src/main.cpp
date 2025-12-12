@@ -1,8 +1,9 @@
-#include <imgui.h>
-#include <imgui_impl_glfw.h>
-#include <imgui_impl_opengl3.h>
+#include <../imgui/imgui.h>
+#include <../imgui/backends/imgui_impl_glfw.h>
+#include <../imgui/backends/imgui_impl_opengl3.h>
 #include <GLFW/glfw3.h>
 #include <vector>
+#include <iostream>
 
 #include "editor/EditorState.hpp"
 #include "editor/Block.hpp"
@@ -11,9 +12,10 @@
 #include "editor/BlockArgumentSlots.hpp"
 #include "editor/EditorUI.hpp"
 
+
 int main() {
     glfwInit();
-    GLFWwindow* window = glfwCreateWindow(1280, 720, "Atom Engine", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(1280, 720, "Mini Engine", NULL, NULL);
     glfwMakeContextCurrent(window);
 
     IMGUI_CHECKVERSION();
@@ -46,4 +48,5 @@ int main() {
 
     glfwDestroyWindow(window);
     glfwTerminate();
+    return 0;
 }

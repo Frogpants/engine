@@ -380,6 +380,9 @@ void DrawStageWithSprites() {
     {
         ImGui::Text("Sprites:");
 
+        // Adjustable sprite text size (persistent)
+        static float spriteTextSize = 11.0f;
+
         ImVec2 panelSize = ImGui::GetContentRegionAvail();
 
         const float spriteW = 50.0f;
@@ -408,41 +411,44 @@ void DrawStageWithSprites() {
             ImVec2 nameMax = pMax;
             dl->AddRectFilled(nameMin, nameMax, colNameBg, cornerR, ImDrawFlags_RoundCornersBottom);
 
-            // Name text centered
-            ImGui::SetCursorScreenPos(ImVec2(
-                nameMin.x + (spriteW * 0.5f) - ImGui::CalcTextSize(g_editor.sprites[i]->name.c_str()).x * 0.5f,
-                nameMin.y
-            ));
-            ImGui::Text("%s", g_editor.sprites[i]->name.c_str());
+            // Name text centered with adjustable size
+            const std::string& spriteName = g_editor.sprites[i]->name;
+            ImVec2 textSize = ImGui::GetFont()->CalcTextSizeA(spriteTextSize, 1000.0f, 0.0f, spriteName.c_str());
+            ImVec2 textPos = ImVec2(
+                nameMin.x + (spriteW * 0.5f) - textSize.x * 0.5f,
+                nameMin.y + (nameHeight - textSize.y) * 0.5f
+            );
+            ImU32 textCol = IM_COL32(255, 255, 255, 255);
+            dl->AddText(ImGui::GetFont(), spriteTextSize, textPos, textCol, spriteName.c_str());
 
             // --- Button Collision Box ---
             ImGui::SetCursorScreenPos(pMin);
             std::string spriteBtnId = std::string("sprite_btn_") + std::to_string(i);
-            bool pressed = ImGui::InvisibleButton(
-                spriteBtnId.c_str(),
-                ImVec2(spriteW, spriteH)
-            );
+            bool pressed = ImGui::InvisibleButton(spriteBtnId.c_str(), ImVec2(spriteW, spriteH));
 
             if (pressed)
                 g_editor.selectedSprite = g_editor.sprites[i];
 
             // --- Hover Outline ---
-            if (ImGui::IsItemHovered())
+            if (ImGui::IsItemHovered() || g_editor.selectedSprite == g_editor.sprites[i])
             {
                 ImU32 hoverCol = ImGui::ColorConvertFloat4ToU32(ImVec4(0.984f, 0.376f, 0.384f, 1));
 
                 dl->AddRect( ImVec2(pMin.x - 2, pMin.y - 2), ImVec2(pMax.x + 2, pMax.y + 2), hoverCol, cornerR + 2, 0, 2.0f);
             }
-            
 
+
+            
+            float offX = ((i + 1) % 5) * (spriteW + 10.0);
+            float offY = floor((i+1) / 5.0) * (spriteH + 10.0);
             // Move to next sprite
-            ImGui::SetCursorPos(ImVec2(x, y));
+            ImGui::SetCursorPos(ImVec2(x + offX, y + offY));
         }
 
         // Add Sprite Button
         ImGui::SetCursorPos(ImVec2(panelSize.x - 120, panelSize.y - 40));
         if (ImGui::Button("Add Sprite", ImVec2(120, 30))) {
-            g_editor.sprites.push_back(new Sprite("Sprite"));
+            g_editor.sprites.push_back(new Sprite("Sprite" + std::to_string(g_editor.sprites.size() + 1)));
         }
     }
 

@@ -27,6 +27,11 @@ struct EditorState {
     size_t currentBlockIndex = 0;
     std::vector<Block*> executionOrder;
 
+    EditorState() {
+        AddSprite("Sprite1");
+        selectedSprite = sprites[0];
+    }
+
     // --------------------------------------------------------
     // Add a new sprite
     // --------------------------------------------------------
@@ -126,5 +131,6 @@ inline void StepExecution()
     g_editor.currentBlockIndex++;
 
 }
+
 
 #endif // EDITORSTATE_HPP
