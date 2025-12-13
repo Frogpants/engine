@@ -14,6 +14,12 @@ struct Sprite {
 struct EditorState {
     std::vector<Block*> blocks;
     std::vector<Sprite*> sprites; // Added for sprite panel
+    // Palette screen rect (filled when drawing palette)
+    ImVec2 paletteMin = ImVec2(0,0);
+    ImVec2 paletteMax = ImVec2(0,0);
+
+    // Dragging a newly-created block from the palette
+    Block* draggingNewBlock = nullptr;
 
     Block* selected = nullptr;
     Block* hoveredSocket = nullptr;
